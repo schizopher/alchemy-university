@@ -1,0 +1,10 @@
+{
+  "name": "alchemy-university",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "activities/*",
+    "assignments/*",
+    "notes/*"
+  ]
+}
