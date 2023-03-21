@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { getPublicKey, utils } from "ethereum-cryptography/secp256k1";
+import { getPublicKey, sign, utils } from "ethereum-cryptography/secp256k1";
 import { keccak256 } from "ethereum-cryptography/keccak";
-import { toHex } from "ethereum-cryptography/utils";
+import { toHex, utf8ToBytes } from "ethereum-cryptography/utils";
 
 import server from "../server";
-import { Wallet } from "../types";
+import { Transaction, Wallet } from "../types";
 import { DEFAULT_WALLETS } from "../constants";
 
 const LOCAL_STORAGE_KEY = "edcsa-node-wallets";
@@ -14,9 +14,12 @@ export interface useClientWalletProps {
   wallet: Wallet | null;
   address: string;
   balance: number;
-  invalidate: () => void;
+  revalidate: () => void;
   createNewWallet: () => void;
   setWallet: (wallet: Wallet | null) => void;
+  signTransaction: (
+    transaction: Transaction
+  ) => Promise<readonly [string, number] | null>;
 }
 
 export default function useClientWallet(): useClientWalletProps {
@@ -27,7 +30,7 @@ export default function useClientWallet(): useClientWalletProps {
   const address = wallet?.address || "";
 
   const [refresh, setRefresh] = useState<boolean>(false);
-  const invalidate = () => setRefresh((prev) => !prev);
+  const revalidate = () => setRefresh((prev) => !prev);
 
   const createNewWallet = () => {
     const sk = utils.randomPrivateKey();
@@ -36,6 +39,16 @@ export default function useClientWallet(): useClientWalletProps {
     const newWallet = { pk: toHex(pk), sk: toHex(sk), address: `0x${address}` };
     setWallets((wallets) => [...wallets, newWallet]);
     setWallet(newWallet);
+  };
+
+  const signTransaction = async (transaction: Transaction) => {
+    if (!wallet) return null;
+    const message = JSON.stringify(transaction);
+    const hash = keccak256(utf8ToBytes(message));
+    const [signature, recoveryBit] = await sign(hash, wallet!.sk, {
+      recovered: true,
+    });
+    return [toHex(signature), recoveryBit] as const;
   };
 
   useEffect(() => {
@@ -70,6 +83,7 @@ export default function useClientWallet(): useClientWalletProps {
     balance,
     address,
     createNewWallet,
-    invalidate,
+    signTransaction,
+    revalidate,
   };
 }

@@ -1,3 +1,6 @@
+import { recoverPublicKey } from "ethereum-cryptography/secp256k1";
+import { keccak256 } from "ethereum-cryptography/keccak";
+import { utf8ToBytes, toHex } from "ethereum-cryptography/utils";
 import express from "express";
 import cors from "cors";
 
@@ -20,7 +23,14 @@ app.get("/balance/:address", (req, res) => {
 });
 
 app.post("/send", (req, res) => {
-  const { sender, recipient, amount } = req.body;
+  const { transaction, signature, recoveryBit } = req.body;
+  const { amount, recipient } = transaction;
+
+  const message = JSON.stringify(transaction);
+  const hash = keccak256(utf8ToBytes(message));
+
+  const senderpk = recoverPublicKey(hash, signature, recoveryBit);
+  const sender = `0x${toHex(keccak256(senderpk.slice(1)).slice(-20))}`;
 
   setInitialBalance(sender);
   setInitialBalance(recipient);

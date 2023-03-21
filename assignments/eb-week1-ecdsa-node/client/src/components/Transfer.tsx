@@ -1,14 +1,16 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import server from "./server";
+import { useClientWalletProps } from "../hooks/useClientWallet";
+import server from "../server";
+import { Transaction } from "../types";
 
 interface TransferProps {
-  address: string;
-  setBalance: (balance: number) => void;
+  clientWallet: useClientWalletProps;
 }
 
-const Transfer: React.FC<TransferProps> = ({ address, setBalance }) => {
-  const [sendAmount, setSendAmount] = useState("");
-  const [recipient, setRecipient] = useState("");
+const Transfer: React.FC<TransferProps> = ({ clientWallet }) => {
+  const { signTransaction, revalidate } = clientWallet;
+  const [sendAmount, setSendAmount] = useState<string>("");
+  const [recipient, setRecipient] = useState<string>("");
 
   const setValue =
     (setter: (value: string) => void) => (evt: ChangeEvent<HTMLInputElement>) =>
@@ -17,23 +19,28 @@ const Transfer: React.FC<TransferProps> = ({ address, setBalance }) => {
   async function transfer(evt: FormEvent) {
     evt.preventDefault();
     try {
-      const {
-        data: { balance },
-      } = await server.post(`send`, {
-        sender: address,
-        amount: parseInt(sendAmount),
+      const transaction: Transaction = {
         recipient,
+        amount: parseInt(sendAmount),
+      };
+      const signed = await signTransaction(transaction);
+      if (!signed) return alert("Error: No wallet connected!");
+      const [signature, recoveryBit] = signed;
+      await server.post("/send", {
+        transaction,
+        signature,
+        recoveryBit,
       });
-      setBalance(balance);
-    } catch (ex) {
-      alert(ex.response.data.message);
+      revalidate();
+    } catch (e: any) {
+      console.log(e);
+      alert(e.response.data.message);
     }
   }
 
   return (
     <form className="container transfer" onSubmit={transfer}>
       <h1>Send Transaction</h1>
-
       <label>
         Send Amount
         <input
@@ -42,7 +49,6 @@ const Transfer: React.FC<TransferProps> = ({ address, setBalance }) => {
           onChange={setValue(setSendAmount)}
         ></input>
       </label>
-
       <label>
         Recipient
         <input
@@ -51,7 +57,6 @@ const Transfer: React.FC<TransferProps> = ({ address, setBalance }) => {
           onChange={setValue(setRecipient)}
         ></input>
       </label>
-
       <input type="submit" className="button" value="Transfer" />
     </form>
   );

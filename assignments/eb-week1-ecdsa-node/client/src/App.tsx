@@ -1,19 +1,16 @@
-import React, { useState } from "react";
-import Transfer from "./Transfer";
+import React from "react";
 import "./App.scss";
 
+import Transfer from "./components/Transfer";
 import Wallet from "./components/Wallet";
 import useClientWallet from "./hooks/useClientWallet";
 
 function App() {
-  const [balance, setBalance] = useState<number>(0);
-  const [address, setAddress] = useState<string>("");
   const clientWallet = useClientWallet();
-
   return (
     <div className="app">
       <Wallet clientWallet={clientWallet} />
-      <Transfer setBalance={setBalance} address={address} />
+      <Transfer clientWallet={clientWallet} />
     </div>
   );
 }
