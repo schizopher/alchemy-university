@@ -1,15 +1,21 @@
-import { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import server from "./server";
 
-function Transfer({ address, setBalance }) {
+interface TransferProps {
+  address: string;
+  setBalance: (balance: number) => void;
+}
+
+const Transfer: React.FC<TransferProps> = ({ address, setBalance }) => {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
-  const setValue = (setter) => (evt) => setter(evt.target.value);
+  const setValue =
+    (setter: (value: string) => void) => (evt: ChangeEvent<HTMLInputElement>) =>
+      setter(evt.target.value);
 
-  async function transfer(evt) {
+  async function transfer(evt: FormEvent) {
     evt.preventDefault();
-
     try {
       const {
         data: { balance },
@@ -49,6 +55,6 @@ function Transfer({ address, setBalance }) {
       <input type="submit" className="button" value="Transfer" />
     </form>
   );
-}
+};
 
 export default Transfer;
