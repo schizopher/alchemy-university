@@ -1,12 +1,13 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+
 const app = express();
-const cors = require("cors");
 const port = 3042;
 
 app.use(cors());
 app.use(express.json());
 
-const balances = {
+const balances: { [key: string]: number } = {
   "0x1": 100,
   "0x2": 50,
   "0x3": 75,
@@ -37,7 +38,7 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
 });
 
-function setInitialBalance(address) {
+function setInitialBalance(address: string) {
   if (!balances[address]) {
     balances[address] = 0;
   }
