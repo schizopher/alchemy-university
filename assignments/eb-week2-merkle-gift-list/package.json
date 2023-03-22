@@ -5,7 +5,8 @@
   "scripts": {
     "server": "ts-node ./server/index.ts",
     "client": "ts-node ./client/index.ts",
-    "example": "ts-node ./utils/example.ts"
+    "example": "ts-node ./utils/example.ts",
+    "generate": "ts-node ./utils/generaetRoot.ts"
   },
   "dependencies": {
     "axios": "1.2.0",
