@@ -1784,6 +1784,26 @@ alchemy-sdk@2.3.0:
     sturdy-websocket "^0.2.1"
     websocket "^1.0.34"
 
+alchemy-sdk@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/alchemy-sdk/-/alchemy-sdk-2.6.1.tgz#90fda4b346646c5b33b8ebe5acb6ca2fa7e97ca7"
+  integrity sha512-amW8t5CeAm5sDeUazjn6X5n7ypex+1VtLwiANt7XpjQJab41RrSTRaryEFm8jUNBB/JfwkvE9RlnXrpSOpYbdw==
+  dependencies:
+    "@ethersproject/abi" "^5.7.0"
+    "@ethersproject/abstract-provider" "^5.7.0"
+    "@ethersproject/bignumber" "^5.7.0"
+    "@ethersproject/bytes" "^5.7.0"
+    "@ethersproject/contracts" "^5.7.0"
+    "@ethersproject/hash" "^5.7.0"
+    "@ethersproject/networks" "^5.7.0"
+    "@ethersproject/providers" "^5.7.0"
+    "@ethersproject/units" "^5.7.0"
+    "@ethersproject/wallet" "^5.7.0"
+    "@ethersproject/web" "^5.7.0"
+    axios "^0.26.1"
+    sturdy-websocket "^0.2.1"
+    websocket "^1.0.34"
+
 ansi-escapes@^4.2.1:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.2.tgz#6b2291d1db7d98b6521d5f1efa42d0f3a9feb65e"
