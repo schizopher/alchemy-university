@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import alchemy from "~/lib/alchemy";
-import { ErrorResponse, GetLatestBlockResponse } from "~/types";
+import { GetBlocksResponse, ErrorResponse } from "~/types";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<GetLatestBlockResponse | ErrorResponse>
+  res: NextApiResponse<GetBlocksResponse | ErrorResponse>
 ) {
   if (req.method !== "GET") {
     res.setHeader("Allow", ["GET"]);
@@ -12,8 +12,11 @@ export default async function handler(
   }
   try {
     const latestBlock = await alchemy.core.getBlockNumber();
-    const block = await alchemy.core.getBlockWithTransactions(latestBlock);
-    res.status(200).json({ block });
+    const blockPromises = [...Array(10)].map((_, i) =>
+      alchemy.core.getBlockWithTransactions(latestBlock - i)
+    );
+    const blocks = await Promise.all(blockPromises);
+    res.status(200).json({ blocks });
   } catch (e: any) {
     res.status(500).json({ error: e.message });
   }

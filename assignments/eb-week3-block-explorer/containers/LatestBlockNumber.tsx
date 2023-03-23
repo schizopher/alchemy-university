@@ -3,9 +3,12 @@ import StatCard from "~/components/StatCard";
 import useLatestBlock from "~/hooks/useLatestBlock";
 
 const LatestBlock: React.FC = () => {
-  const { data, isLoading, error } = useLatestBlock();
+  const { data } = useLatestBlock();
   return (
-    <StatCard heading="Latest Block" stat={data?.toLocaleString("en-US")} />
+    <StatCard
+      heading="Latest Block"
+      stat={data?.number.toLocaleString("en-US")}
+    />
   );
 };
 
