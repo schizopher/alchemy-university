@@ -30,7 +30,7 @@ const LatestBlocksList: React.FC = () => {
     <div className="flex flex-col gap-4 rounded-lg bg-zinc-800 p-8">
       <h2 className="text-2xl text-white">Latest Blocks</h2>
       <div>
-        {data.map((block: BlockWithTransactions, i: number) => (
+        {data?.map((block: BlockWithTransactions, i: number) => (
           <LatestBlockListItem key={block.hash} block={block} index={i} />
         ))}
       </div>
