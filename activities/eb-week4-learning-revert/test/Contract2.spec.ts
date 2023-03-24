@@ -12,11 +12,11 @@ describe("Contract", function () {
 
   it("should fail when another account attempts to set a config variable", async () => {
     const { contract } = await loadFixture(deployContract);
-    const vals = ["A", "B", "C"];
+    const vals = ["A", "B", "C"] as const;
     const other = ethers.provider.getSigner(1);
     for (let i = 0; i < vals.length; i++) {
       const val = vals[i];
-      const methodName = `set${val}`;
+      const methodName = `set${val}` as const;
       let ex;
       try {
         await contract.connect(other)[methodName](1);
@@ -31,10 +31,10 @@ describe("Contract", function () {
 
   it("should not fail when owner attempts to set a config variable", async () => {
     const { contract } = await loadFixture(deployContract);
-    const vals = ["A", "B", "C"];
+    const vals = ["A", "B", "C"] as const;
     for (let i = 0; i < vals.length; i++) {
       const val = vals[i];
-      const methodName = `set${val}`;
+      const methodName = `set${val}` as const;
       await contract[methodName](1);
     }
   });
