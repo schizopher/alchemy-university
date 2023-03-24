@@ -16,7 +16,7 @@ const LatestTransactionsListItemSkeleton: React.FC<{ index: number }> = ({
       } flex flex-row items-center justify-start gap-4 rounded-lg p-4`}
     >
       <DocumentTextIcon className="w-8" />
-      <div className="h-12 w-full rounded bg-zinc-700" />
+      <div className="h-12 w-full rounded-lg bg-zinc-700" />
     </div>
   );
 };
