@@ -15,11 +15,11 @@ describe("Contract", function () {
     [1, 3, 5, 7],
     [8, 8, 8, 8],
   ].forEach(async ([a, b, c, d]) => {
-    const { contract } = await loadFixture(deployContract);
-    const expectedSum = a + b + c + d;
-    const expectedAverage = expectedSum / 4;
     describe(`for ${a}, ${b}, ${c} and ${d}`, () => {
+      const expectedSum = a + b + c + d;
+      const expectedAverage = expectedSum / 4;
       it(`it should return ${expectedSum} and ${expectedAverage}`, async () => {
+        const { contract } = await loadFixture(deployContract);
         const values = await contract.sumAndAverage(a, b, c, d);
         assert.equal(values[0], expectedSum);
         assert.equal(values[1], expectedAverage);
