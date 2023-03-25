@@ -5,33 +5,11 @@ import React from "react";
 import { AppProps } from "next/app";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, useAccount, WagmiConfig } from "wagmi";
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  goerli,
-  polygonMumbai,
-  optimismGoerli,
-  arbitrumGoerli,
-} from "wagmi/chains";
-import { alchemyProvider } from "wagmi/providers/alchemy";
+import { localhost } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import MainLayout from "../layout/MainLayout";
 
-const { chains, provider } = configureChains(
-  [
-    mainnet,
-    goerli,
-    polygon,
-    polygonMumbai,
-    optimism,
-    optimismGoerli,
-    arbitrum,
-    arbitrumGoerli,
-  ],
-  [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]
-);
+const { chains, provider } = configureChains([localhost], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
   appName: "Escrow DApp",
@@ -56,7 +34,7 @@ function App({ Component, pageProps }: AppProps) {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
         modalSize="compact"
-        initialChain={goerli}
+        initialChain={localhost}
         chains={chains}
       >
         <MainLayout>
