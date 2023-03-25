@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
+import React from "react";
+import { AppProps } from "next/app";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, useAccount, WagmiConfig } from "wagmi";
 import {
@@ -15,7 +17,7 @@ import {
 } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import MainLayout from "../layout/mainLayout";
+import MainLayout from "../layout/MainLayout";
 
 const { chains, provider } = configureChains(
   [
@@ -32,7 +34,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "My Alchemy DApp",
+  appName: "Escrow DApp",
   chains,
 });
 
@@ -44,7 +46,7 @@ const wagmiClient = createClient({
 
 export { WagmiConfig, RainbowKitProvider };
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }: AppProps) {
   const account = useAccount({
     onConnect({ address, connector, isReconnected }) {
       if (!isReconnected) router.reload();
@@ -54,7 +56,7 @@ function MyApp({ Component, pageProps }) {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
         modalSize="compact"
-        initialChain={process.env.NEXT_PUBLIC_DEFAULT_CHAIN}
+        initialChain={goerli}
         chains={chains}
       >
         <MainLayout>
@@ -65,4 +67,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default App;
