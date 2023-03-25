@@ -18,7 +18,7 @@ const EscrowContractCard: React.FC<EscrowContractCardProps> = ({ address }) => {
         <p>Balance: {utils.formatUnits(balance?.toString() || "0", "ether")}</p>
       </div>
       <button
-        className="rounded bg-blue-500 py-2 px-4 font-semibold text-white"
+        className="rounded bg-blue-500 py-2 px-4 font-semibold text-white disabled:bg-blue-500/50"
         onClick={approve}
         disabled={!isArbiter}
       >
