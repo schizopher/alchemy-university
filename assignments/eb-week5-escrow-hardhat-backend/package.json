@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "start": "hardhat node",
     "build": "hardhat compile",
     "test": "hardhat test"
   },
