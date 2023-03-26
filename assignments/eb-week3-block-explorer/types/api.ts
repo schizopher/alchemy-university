@@ -1,4 +1,4 @@
-import { BlockWithTransactions } from "alchemy-sdk";
+import { BlockWithTransactions, TransactionResponse } from "alchemy-sdk";
 
 export interface ErrorResponse {
   error: string;
@@ -12,4 +12,12 @@ export interface GetLatestBlockResponse {
 export interface GetBlocksRequest {}
 export interface GetBlocksResponse {
   blocks: BlockWithTransactions[];
+}
+
+export interface GetTransactionRequest {
+  hash: string;
+}
+
+export interface GetTransactionResponse {
+  transaction: TransactionResponse;
 }
