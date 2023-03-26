@@ -4,6 +4,7 @@ import {
   GetLatestBlockResponse,
   GetBlocksResponse,
   GetTransactionResponse,
+  GetBlockResponse,
 } from "~/types";
 
 axios.defaults.baseURL = "/api";
@@ -20,5 +21,9 @@ export default class apiClient {
   static async getTransaction(hash: string): Promise<TransactionResponse> {
     const res = await axios.get<GetTransactionResponse>(`/tx/${hash}`);
     return res.data.transaction;
+  }
+  static async getBlock(blockNumber: number): Promise<BlockWithTransactions> {
+    const res = await axios.get<GetBlockResponse>(`/blocks/${blockNumber}`);
+    return res.data.block;
   }
 }

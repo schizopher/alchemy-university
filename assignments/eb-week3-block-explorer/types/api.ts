@@ -21,3 +21,11 @@ export interface GetTransactionRequest {
 export interface GetTransactionResponse {
   transaction: TransactionResponse;
 }
+
+export interface GetBlockRequest {
+  blockNumber: number;
+}
+
+export interface GetBlockResponse {
+  block: BlockWithTransactions;
+}
