@@ -5,7 +5,5 @@ const PROVIDED_PRIVATE_KEY =
 const PROVIDED_MNEMONIC =
   "plate lawn minor crouch bubble evidence palace fringe bamboo laptop dutch ice";
 
-const wallet1 = new Wallet(PROVIDED_PRIVATE_KEY);
-const wallet2 = Wallet.fromMnemonic(PROVIDED_MNEMONIC);
-
-export { wallet1, wallet2 };
+export const wallet1 = new Wallet(PROVIDED_PRIVATE_KEY);
+export const wallet2 = Wallet.fromMnemonic(PROVIDED_MNEMONIC);

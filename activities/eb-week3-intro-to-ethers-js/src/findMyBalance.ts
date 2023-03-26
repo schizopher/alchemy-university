@@ -1,7 +1,7 @@
 import { Wallet } from "ethers";
-import { mockProvider } from "./config";
+import { provider } from "./config";
 
 export default async function findMyBalance(privateKey: string) {
-  const wallet = new Wallet(privateKey, mockProvider);
+  const wallet = new Wallet(privateKey, provider);
   return wallet.getBalance();
 }

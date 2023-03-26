@@ -1,5 +1,7 @@
-import { BigNumberish } from "ethers";
-import { wallet } from "./config";
+import { Wallet, BigNumberish } from "ethers";
+import { provider, PRIVATE_KEY } from "./config";
+
+const wallet = new Wallet(PRIVATE_KEY, provider);
 
 export default async function sendEther({
   value,

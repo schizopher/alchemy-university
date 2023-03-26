@@ -16,7 +16,7 @@ describe("signaturePromise", () => {
 
   describe("parsed properties", () => {
     let parsed: Transaction;
-    beforeAll(async () => {
+    before(async () => {
       const hex = await signaturePromise;
       parsed = utils.parseTransaction(hex);
     });

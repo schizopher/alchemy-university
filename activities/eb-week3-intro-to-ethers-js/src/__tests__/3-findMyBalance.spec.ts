@@ -8,6 +8,6 @@ describe("findMyBalance", () => {
   });
   it("should resolve with the initial balance", async () => {
     const balance = await findMyBalance(PRIVATE_KEY);
-    assert.equal(balance.toString(), INITIAL_BALANCE);
+    assert.equal(INITIAL_BALANCE.toString(), balance.toString());
   });
 });

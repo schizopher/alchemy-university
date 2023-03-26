@@ -1,8 +1,8 @@
 import { Wallet, utils } from "ethers";
-import { mockProvider } from "./config";
+import { provider } from "./config";
 
 export default async function donate(privateKey: string, charities: string[]) {
-  const wallet = new Wallet(privateKey, mockProvider);
+  const wallet = new Wallet(privateKey, provider);
   for (const charity of charities) {
     await wallet.sendTransaction({
       to: charity,

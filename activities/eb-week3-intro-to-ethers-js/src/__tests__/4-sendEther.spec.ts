@@ -1,20 +1,16 @@
 import { assert } from "chai";
 import { ethers, Transaction } from "ethers";
 import sendEther from "../sendEther";
-import { wallet, mockProvider } from "../config";
+import { provider } from "../config";
 
-const provider = mockProvider;
 let tx: Transaction;
 
 describe("sendEther", () => {
-  beforeAll(async () => {
-    const props = {
+  before(async () => {
+    tx = await sendEther({
       value: ethers.utils.parseEther("1.0"),
       to: "0xdD0DC6FB59E100ee4fA9900c2088053bBe14DE92",
-    };
-    tx = await sendEther(props);
-    await sendEther(props);
-    await sendEther(props);
+    });
   });
   it("should resolve with a transaction", async () => {
     assert(
@@ -22,16 +18,12 @@ describe("sendEther", () => {
       "The function did not resolve with a transaction. Did you return the transaction promise?"
     );
     assert.equal(tx.to, "0xdD0DC6FB59E100ee4fA9900c2088053bBe14DE92");
-    assert.equal(tx.from, wallet.address);
+    assert.equal(tx.from, "0x5409ED021D9299bf6814279A6A1411A7e866A631");
     assert(tx.hash);
   });
   it("should get mined", async () => {
-    const reciept = await provider.waitForTransaction(tx.hash!);
-    assert(reciept);
-    assert.equal(reciept.blockNumber, 1);
-  });
-  it("should have mined three blocks", async () => {
-    const blockNumber = await provider.getBlockNumber();
-    assert.equal(blockNumber, 3);
+    const receipt = await provider.waitForTransaction(tx.hash!);
+    assert(receipt);
+    assert.equal(receipt.blockNumber, 2);
   });
 });

@@ -1,9 +1,7 @@
 import { assert } from "chai";
 import { ethers } from "ethers";
-import { PRIVATE_KEY, mockProvider } from "../config";
+import { PRIVATE_KEY, provider } from "../config";
 import donate from "../donate";
-
-const provider = mockProvider;
 
 const charities = [
   "0xBfB25955691D8751727102A59aA49226C401F8D4",

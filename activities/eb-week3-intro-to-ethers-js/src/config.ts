@@ -1,9 +1,17 @@
-import { MockProvider } from "ethereum-waffle";
+import { utils, providers } from "ethers";
+import Ganache from "ganache-core";
 
-export const mockProvider = new MockProvider();
-const wallets = mockProvider.getWallets();
-export const wallet = wallets[0];
+export const PRIVATE_KEY =
+  "0xf2f48ee19680706196e2e339e5da3491186e0c4c5030670656b0e0164837257d";
+export const INITIAL_BALANCE = utils.parseEther("10");
 
-export const PRIVATE_KEY = wallet.privateKey;
+// create our test account from the private key, initialize it with 10 ether
+export const accounts = [
+  {
+    balance: INITIAL_BALANCE.toHexString(),
+    secretKey: PRIVATE_KEY,
+  },
+];
 
-export const INITIAL_BALANCE = "10000000000000000000000000000000000";
+export let ganacheProvider = Ganache.provider({ accounts });
+export let provider = new providers.Web3Provider(ganacheProvider);
